@@ -1,0 +1,50 @@
+
+<div class="main-content">
+
+  <div class="new-button">
+    <button (click)="newTodo()" mat-fab color="primary">+</button>
+  </div>
+
+  <div class="new-todo-input" *ngIf="newTodoInput">
+    <mat-form-field class="example-full-width">
+      <input #inputTodo matInput placeholder="New todo title" value="">
+    </mat-form-field>
+    <button (click)="addTodo(inputTodo.value)" mat-button color="primary">Add</button>
+  </div>
+
+  <div class="items-list">
+    <mat-accordion>
+      <ng-container *ngFor="let todo of todos">
+        <mat-expansion-panel (opened)="fetchItems(todo.id)">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              {{todo.title}}
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+
+          <div *ngFor="let item of todo.items">
+            <mat-checkbox
+              [checked]="item.done"
+              [class.done]="item.done"
+              (change)="itemChanged(item)">{{item.name}}</mat-checkbox>
+            <button (click)="deleteItem(item)" mat-button class="item-delete-button">delete</button>
+          </div>
+
+          <div class="new-button">
+            <button (click)="newItem()" *ngIf="!newItemInput" mat-mini-fab color="accent">+</button>
+          </div>
+          <div class="new-todo-input" *ngIf="newItemInput">
+            <mat-form-field class="example-full-width">
+              <input #inputItem matInput placeholder="New item name" value="">
+            </mat-form-field>
+            <button (click)="addItem(inputItem.value, todo.id)" mat-button color="primary">Add</button>
+          </div>
+
+          <mat-action-row>
+            <button mat-button color="warn" (click)="deleteTodo(todo)">Delete</button>
+          </mat-action-row>
+        </mat-expansion-panel>
+      </ng-container>
+    </mat-accordion>
+  </div>
+</div>
