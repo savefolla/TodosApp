@@ -15,7 +15,7 @@
   <div class="items-list">
     <mat-accordion>
       <ng-container *ngFor="let todo of todos; let index = index">
-        <mat-expansion-panel (opened)="fetchItems(todo.id)">
+        <mat-expansion-panel (closed)="panelClosed(index)" (opened)="fetchItems(todo.id)">
           <mat-expansion-panel-header>
             <mat-panel-title>
               <ng-container *ngIf="!updatableTodo[index]">{{todo.title}}</ng-container>
@@ -39,9 +39,9 @@
           </div>
 
           <div class="new-button">
-            <button (click)="newItem()" *ngIf="!newItemInput" mat-mini-fab color="accent">+</button>
+            <button (click)="newItem(index)" mat-mini-fab color="accent">+</button>
           </div>
-          <div class="new-todo-input" *ngIf="newItemInput">
+          <div class="new-todo-input" *ngIf="newItemInput[index]">
             <mat-form-field>
               <input #inputItem matInput placeholder="New item name" value="">
             </mat-form-field>

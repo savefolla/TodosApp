@@ -11,7 +11,7 @@ export class AppComponent {
   todos;
   updatableTodo = [];
   newTodoInput = false;
-  newItemInput = false;
+  newItemInput = [];
 
   constructor(private appService: AppService) {
     this.getTodos();
@@ -21,8 +21,8 @@ export class AppComponent {
     this.newTodoInput = !this.newTodoInput;
   }
 
-  newItem() {
-    this.newItemInput = !this.newItemInput;
+  newItem(index) {
+    this.newItemInput[index] = !this.newItemInput[index];
   }
 
   addTodo(value) {
@@ -33,6 +33,11 @@ export class AppComponent {
       },
           error => console.error(error)
     )
+  }
+
+  panelClosed(index) {
+    this.updatableTodo[index] = false;
+    this.newItemInput[index] = false;
   }
 
   updateTodo(index) {
@@ -80,7 +85,11 @@ export class AppComponent {
       res => {
         this.todos = res;
         this.updatableTodo = [];
-        this.todos.forEach(() => this.updatableTodo.push(false))
+        this.newItemInput = [];
+        this.todos.forEach(() => {
+          this.updatableTodo.push(false);
+          this.newItemInput.push(false)
+        })
       }
     )
   }
