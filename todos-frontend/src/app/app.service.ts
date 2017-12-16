@@ -10,8 +10,8 @@ export class AppService {
 
   constructor(private httpClient: HttpClient) {}
 
-  getTodos() {
-    return this.httpClient.get(this.todosUrl);
+  getTodos(page) {
+    return this.httpClient.get(this.todosUrl, {params: {'page': page, 'per_page': '5'}});
   }
 
   createTodo(todoTitle) {

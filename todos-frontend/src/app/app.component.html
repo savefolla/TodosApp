@@ -7,9 +7,11 @@
 
   <div class="new-todo-input" *ngIf="newTodoInput">
     <mat-form-field class="example-full-width">
-      <input #inputTodo matInput placeholder="New todo title" value="">
+      <input #inputTodo matInput placeholder="new todo title" value="">
     </mat-form-field>
-    <button (click)="addTodo(inputTodo.value)" mat-button color="primary">add</button>
+    <button
+      class="left-margin-button"
+      (click)="addTodo(inputTodo.value)" mat-button color="primary">add</button>
   </div>
 
   <div class="items-list">
@@ -24,7 +26,7 @@
                   (click)="$event.stopPropagation()"
                   *ngIf="updatableTodo[index]">
               <button
-                class="save-button"
+                class="left-margin-button"
                 *ngIf="updatableTodo[index]"
                 (click)="saveTodo(todo, index); $event.stopPropagation()" mat-button color="accent">save</button>
             </mat-panel-title>
@@ -43,9 +45,9 @@
           </div>
           <div class="new-todo-input" *ngIf="newItemInput[index]">
             <mat-form-field>
-              <input #inputItem matInput placeholder="New item name" value="">
+              <input #inputItem matInput placeholder="new item name" value="">
             </mat-form-field>
-            <button (click)="addItem(inputItem.value, todo.id)" mat-button color="primary">add</button>
+            <button (click)="addItem(inputItem.value, todo.id); newItemInput[index]=false" mat-button color="primary">add</button>
           </div>
 
           <mat-action-row>
@@ -55,5 +57,9 @@
         </mat-expansion-panel>
       </ng-container>
     </mat-accordion>
+  </div>
+  <div class="paginator">
+    <button mat-button [disabled]="page===1" (click)="prevPage()">prev</button>
+    <button mat-button [disabled]="lastPage()" (click)="nextPage()">next</button>
   </div>
 </div>

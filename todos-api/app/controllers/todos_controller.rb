@@ -3,8 +3,9 @@ class TodosController < ApplicationController
 
   # GET /todos
   def show
-    @todos = Todo.all.order(:title)
-    json_response(@todos)
+    @todos = Todo.all.order(:title).paginate(page: params[:page], per_page: params[:per_page])
+    @total = @todos.total_entries
+    json_response({todos: @todos, total: @total})
   end
 
   # POST /todos

@@ -9,11 +9,23 @@ import {AppService} from "./app.service";
 export class AppComponent {
 
   todos;
+  page = 1;
+  total;
   updatableTodo = [];
   newTodoInput = false;
   newItemInput = [];
 
   constructor(private appService: AppService) {
+    this.getTodos();
+  }
+
+  nextPage() {
+    ++this.page;
+    this.getTodos()
+  }
+
+  prevPage() {
+    --this.page;
     this.getTodos();
   }
 
@@ -59,7 +71,6 @@ export class AppComponent {
     this.appService.createItem(value, todoId).subscribe(
       res => {
         this.fetchItems(todoId);
-        this.newItemInput = false;
       },
           error => console.error(error)
     )
@@ -81,9 +92,10 @@ export class AppComponent {
   }
 
   getTodos() {
-    this.appService.getTodos().subscribe(
+    this.appService.getTodos(this.page).subscribe(
       res => {
-        this.todos = res;
+        this.todos = res['todos'];
+        this.total = res['total'];
         this.updatableTodo = [];
         this.newItemInput = [];
         this.todos.forEach(() => {
@@ -105,5 +117,9 @@ export class AppComponent {
       res => this.getTodos(),
       error => console.error(error)
     )
+  }
+
+  lastPage() {
+    return this.page === Math.ceil(this.total / 5)
   }
 }
