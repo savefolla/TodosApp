@@ -9,16 +9,24 @@
     <mat-form-field class="example-full-width">
       <input #inputTodo matInput placeholder="New todo title" value="">
     </mat-form-field>
-    <button (click)="addTodo(inputTodo.value)" mat-button color="primary">Add</button>
+    <button (click)="addTodo(inputTodo.value)" mat-button color="primary">add</button>
   </div>
 
   <div class="items-list">
     <mat-accordion>
-      <ng-container *ngFor="let todo of todos">
+      <ng-container *ngFor="let todo of todos; let index = index">
         <mat-expansion-panel (opened)="fetchItems(todo.id)">
           <mat-expansion-panel-header>
             <mat-panel-title>
-              {{todo.title}}
+              <ng-container *ngIf="!updatableTodo[index]">{{todo.title}}</ng-container>
+                <input
+                  [(ngModel)]="todo.title"
+                  (click)="$event.stopPropagation()"
+                  *ngIf="updatableTodo[index]">
+              <button
+                class="save-button"
+                *ngIf="updatableTodo[index]"
+                (click)="saveTodo(todo, index); $event.stopPropagation()" mat-button color="accent">save</button>
             </mat-panel-title>
           </mat-expansion-panel-header>
 
@@ -34,14 +42,15 @@
             <button (click)="newItem()" *ngIf="!newItemInput" mat-mini-fab color="accent">+</button>
           </div>
           <div class="new-todo-input" *ngIf="newItemInput">
-            <mat-form-field class="example-full-width">
+            <mat-form-field>
               <input #inputItem matInput placeholder="New item name" value="">
             </mat-form-field>
-            <button (click)="addItem(inputItem.value, todo.id)" mat-button color="primary">Add</button>
+            <button (click)="addItem(inputItem.value, todo.id)" mat-button color="primary">add</button>
           </div>
 
           <mat-action-row>
-            <button mat-button color="warn" (click)="deleteTodo(todo)">Delete</button>
+            <button mat-button color="primary" (click)="updateTodo(index)">edit</button>
+            <button mat-button color="warn" (click)="deleteTodo(todo)">delete</button>
           </mat-action-row>
         </mat-expansion-panel>
       </ng-container>

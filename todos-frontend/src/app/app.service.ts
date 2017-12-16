@@ -26,6 +26,10 @@ export class AppService {
     return this.httpClient.put(this.itemsUrl, item);
   }
 
+  updateTodo(todo) {
+    return this.httpClient.put(this.todosUrl, todo);
+  }
+
   deleteItem(item) {
     return this.httpClient.delete(this.itemsUrl, {params: item});
   }

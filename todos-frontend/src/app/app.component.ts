@@ -1,4 +1,4 @@
-import {Component, ViewChild} from '@angular/core';
+import {Component} from '@angular/core';
 import {AppService} from "./app.service";
 
 @Component({
@@ -9,6 +9,7 @@ import {AppService} from "./app.service";
 export class AppComponent {
 
   todos;
+  updatableTodo = [];
   newTodoInput = false;
   newItemInput = false;
 
@@ -32,6 +33,21 @@ export class AppComponent {
       },
           error => console.error(error)
     )
+  }
+
+  updateTodo(index) {
+    this.updatableTodo[index] = !this.updatableTodo[index];
+  }
+
+  saveTodo(todo, index) {
+    this.appService.updateTodo(todo).subscribe(
+      res => {
+        this.getTodos();
+        this.updatableTodo[index] = false;
+      },
+          error => console.error(error)
+    )
+
   }
 
   addItem(value, todoId) {
@@ -61,7 +77,11 @@ export class AppComponent {
 
   getTodos() {
     this.appService.getTodos().subscribe(
-      res => this.todos = res
+      res => {
+        this.todos = res;
+        this.updatableTodo = [];
+        this.todos.forEach(() => this.updatableTodo.push(false))
+      }
     )
   }
 

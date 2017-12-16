@@ -3,7 +3,7 @@ class TodosController < ApplicationController
 
   # GET /todos
   def show
-    @todos = Todo.all
+    @todos = Todo.all.order(:title)
     json_response(@todos)
   end
 
@@ -15,6 +15,7 @@ class TodosController < ApplicationController
 
   # PUT /todos
   def update
+    @todo.update(todo_params);
     json_response(@todo, :ok)
   end
 

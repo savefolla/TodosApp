@@ -11,12 +11,14 @@ import {MatButtonModule, MatCheckboxModule, MatExpansionModule, MatSidenavModule
 import {HttpClientModule} from "@angular/common/http";
 import {AppService} from "./app.service";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {FormsModule} from "@angular/forms";
 
 @NgModule({
   declarations: [
     AppComponent,
   ],
   imports: [
+    FormsModule,
     BrowserModule,
     MatExpansionModule,
     MatCheckboxModule,
